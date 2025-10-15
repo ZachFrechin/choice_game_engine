@@ -48,29 +48,44 @@ jobs:
         run: |
           pyinstaller runtime.spec --clean
 
-      # Windows: Créer des archives ZIP
+      # Windows: Créer des archives ZIP avec templates
       - name: Package executables (Windows)
         if: matrix.os == 'windows-latest'
         run: |
+          # Package Creator
           Compress-Archive -Path dist\ChoiceGameCreator\* -DestinationPath ${{ matrix.asset_name_creator }}
+
+          # Package Runtime avec templates
+          New-Item -ItemType Directory -Force -Path dist\ChoiceGameRuntime\templates
+          Copy-Item -Path templates\* -Destination dist\ChoiceGameRuntime\templates\ -Recurse
           Compress-Archive -Path dist\ChoiceGameRuntime\* -DestinationPath ${{ matrix.asset_name_runtime }}
         shell: pwsh
 
-      # macOS: Créer des archives ZIP
+      # macOS: Créer des archives ZIP avec templates
       - name: Package executables (macOS)
         if: matrix.os == 'macos-latest'
         run: |
+          # Package Creator
           cd dist
           zip -r ../${{ matrix.asset_name_creator }} ChoiceGameCreator.app
+
+          # Package Runtime avec templates
+          mkdir -p ChoiceGameRuntime.app/Contents/MacOS/templates
+          cp -r ../templates/* ChoiceGameRuntime.app/Contents/MacOS/templates/
           zip -r ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime.app
           cd ..
 
-      # Linux: Créer des archives TAR.GZ
+      # Linux: Créer des archives TAR.GZ avec templates
       - name: Package executables (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
+          # Package Creator
           cd dist
           tar -czf ../${{ matrix.asset_name_creator }} ChoiceGameCreator/
+
+          # Package Runtime avec templates
+          mkdir -p ChoiceGameRuntime/templates
+          cp -r ../templates/* ChoiceGameRuntime/templates/
           tar -czf ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime/
           cd ..
 
