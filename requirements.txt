@@ -1,0 +1,9 @@
+# Créateur de Jeux à Choix - Dépendances Python
+
+# Pas de dépendances externes nécessaires pour le créateur de base
+# (utilise uniquement la bibliothèque standard Python avec tkinter)
+
+# Dépendances optionnelles pour le développement:
+# pytest>=7.0.0  # Pour les tests unitaires
+# black>=22.0.0  # Pour le formatage du code
+# mypy>=0.950    # Pour la vérification de types
