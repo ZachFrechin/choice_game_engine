@@ -17,14 +17,11 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
         include:
           - os: windows-latest
-            asset_name_creator: ChoiceGameCreator-Windows.zip
-            asset_name_runtime: ChoiceGameRuntime-Windows.zip
+            asset_name: ChoiceGameEngine-Windows.zip
           - os: macos-latest
-            asset_name_creator: ChoiceGameCreator-macOS.zip
-            asset_name_runtime: ChoiceGameRuntime-macOS.zip
+            asset_name: ChoiceGameEngine-macOS.zip
           - os: ubuntu-latest
-            asset_name_creator: ChoiceGameCreator-Linux.zip
-            asset_name_runtime: ChoiceGameRuntime-Linux.zip
+            asset_name: ChoiceGameEngine-Linux.tar.gz
 
     steps:
       - name: Checkout code
@@ -48,59 +45,68 @@ jobs:
         run: |
           pyinstaller runtime.spec --clean
 
-      # Windows: Créer des archives ZIP avec templates
+      # Windows: Créer une archive ZIP avec Creator, Runtime et templates
       - name: Package executables (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          # Package Creator
-          Compress-Archive -Path dist\ChoiceGameCreator\* -DestinationPath ${{ matrix.asset_name_creator }}
+          # Créer le dossier de package
+          New-Item -ItemType Directory -Force -Path package
 
-          # Package Runtime avec templates
-          New-Item -ItemType Directory -Force -Path dist\ChoiceGameRuntime\templates
-          Copy-Item -Path templates\* -Destination dist\ChoiceGameRuntime\templates\ -Recurse
-          Compress-Archive -Path dist\ChoiceGameRuntime\* -DestinationPath ${{ matrix.asset_name_runtime }}
+          # Copier Creator et Runtime
+          Copy-Item -Path dist\ChoiceGameCreator -Destination package\ChoiceGameCreator -Recurse
+          Copy-Item -Path dist\ChoiceGameRuntime -Destination package\ChoiceGameRuntime -Recurse
+
+          # Copier templates (avec assets et exemple)
+          Copy-Item -Path templates -Destination package\templates -Recurse
+
+          # Créer l'archive
+          Compress-Archive -Path package\* -DestinationPath ${{ matrix.asset_name }}
         shell: pwsh
 
-      # macOS: Créer des archives ZIP avec templates
+      # macOS: Créer une archive ZIP avec Creator, Runtime et templates
       - name: Package executables (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          # Package Creator
-          cd dist
-          zip -r ../${{ matrix.asset_name_creator }} ChoiceGameCreator.app
+          # Créer le dossier de package
+          mkdir -p package
 
-          # Package Runtime avec templates
-          mkdir -p ChoiceGameRuntime.app/Contents/MacOS/templates
-          cp -r ../templates/* ChoiceGameRuntime.app/Contents/MacOS/templates/
-          zip -r ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime.app
+          # Copier Creator et Runtime
+          cp -r dist/ChoiceGameCreator.app package/
+          cp -r dist/ChoiceGameRuntime.app package/
+
+          # Copier templates (avec assets et exemple)
+          cp -r templates package/
+
+          # Créer l'archive
+          cd package
+          zip -r ../${{ matrix.asset_name }} *
           cd ..
 
-      # Linux: Créer des archives TAR.GZ avec templates
+      # Linux: Créer une archive TAR.GZ avec Creator, Runtime et templates
       - name: Package executables (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          # Package Creator
-          cd dist
-          tar -czf ../${{ matrix.asset_name_creator }} ChoiceGameCreator/
+          # Créer le dossier de package
+          mkdir -p package
 
-          # Package Runtime avec templates
-          mkdir -p ChoiceGameRuntime/templates
-          cp -r ../templates/* ChoiceGameRuntime/templates/
-          tar -czf ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime/
+          # Copier Creator et Runtime
+          cp -r dist/ChoiceGameCreator package/
+          cp -r dist/ChoiceGameRuntime package/
+
+          # Copier templates (avec assets et exemple)
+          cp -r templates package/
+
+          # Créer l'archive
+          cd package
+          tar -czf ../${{ matrix.asset_name }} *
           cd ..
 
-      # Upload les artifacts (téléchargeables depuis l'onglet Actions)
-      - name: Upload Creator artifact
+      # Upload l'artifact unique (téléchargeable depuis l'onglet Actions)
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.asset_name_creator }}
-          path: ${{ matrix.asset_name_creator }}
-
-      - name: Upload Runtime artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.asset_name_runtime }}
-          path: ${{ matrix.asset_name_runtime }}
+          name: ${{ matrix.asset_name }}
+          path: ${{ matrix.asset_name }}
 
   # Job pour créer une release GitHub avec tous les builds
   release:
