@@ -76,13 +76,13 @@ jobs:
 
       # Upload les artifacts (téléchargeables depuis l'onglet Actions)
       - name: Upload Creator artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset_name_creator }}
           path: ${{ matrix.asset_name_creator }}
 
       - name: Upload Runtime artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset_name_runtime }}
           path: ${{ matrix.asset_name_runtime }}
@@ -99,7 +99,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
 
