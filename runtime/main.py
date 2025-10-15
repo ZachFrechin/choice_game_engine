@@ -71,10 +71,34 @@ def setup_input_events(engine: GameEngine) -> None:
 def main():
     """Point d'entrée principal"""
     parser = argparse.ArgumentParser(description='Moteur de jeu à choix')
-    parser.add_argument('template', type=str, help='Chemin vers le fichier template (.json)')
+    parser.add_argument('template', type=str, nargs='?', help='Chemin vers le fichier template (.json)')
     parser.add_argument('--start', type=str, help='ID du nœud de départ (optionnel)', default=None)
 
     args = parser.parse_args()
+
+    # Si aucun fichier n'est fourni, ouvrir une boîte de dialogue
+    if not args.template:
+        from PyQt6.QtWidgets import QApplication, QFileDialog
+
+        # Créer une app temporaire juste pour le dialog
+        temp_app = QApplication(sys.argv)
+
+        print("Veuillez sélectionner un fichier de jeu (.json)...")
+        file_path, _ = QFileDialog.getOpenFileName(
+            None,
+            "Sélectionner un fichier de jeu",
+            str(Path.cwd()),
+            "Fichiers JSON (*.json);;Tous les fichiers (*.*)"
+        )
+
+        if not file_path:
+            print("Aucun fichier sélectionné. Fermeture.")
+            sys.exit(0)
+
+        args.template = file_path
+
+        # Détruire l'app temporaire
+        del temp_app
 
     # Vérifier que le fichier existe
     template_path = Path(args.template)

@@ -1,7 +1,11 @@
-# Créateur de Jeux à Choix - Dépendances Python
+# Choice Game Engine - Dépendances Python
 
-# Pas de dépendances externes nécessaires pour le créateur de base
-# (utilise uniquement la bibliothèque standard Python avec tkinter)
+# Dépendances principales
+PyQt6>=6.5.0
+
+# Build et compilation
+pyinstaller>=5.13.0
+pillow>=10.0.0  # Pour la conversion d'images (logo)
 
 # Dépendances optionnelles pour le développement:
 # pytest>=7.0.0  # Pour les tests unitaires

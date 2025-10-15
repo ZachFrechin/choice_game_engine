@@ -1,0 +1,116 @@
+name: Build Executables
+
+# Déclencher la compilation lors de la création d'un tag (ex: v1.0.0)
+# ou manuellement depuis l'onglet Actions
+on:
+  push:
+    tags:
+      - 'v*'  # Déclenche sur les tags comme v1.0.0, v1.1.0, etc.
+  workflow_dispatch:  # Permet de lancer manuellement
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            asset_name_creator: ChoiceGameCreator-Windows.zip
+            asset_name_runtime: ChoiceGameRuntime-Windows.zip
+          - os: macos-latest
+            asset_name_creator: ChoiceGameCreator-macOS.zip
+            asset_name_runtime: ChoiceGameRuntime-macOS.zip
+          - os: ubuntu-latest
+            asset_name_creator: ChoiceGameCreator-Linux.zip
+            asset_name_runtime: ChoiceGameRuntime-Linux.zip
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build Creator
+        run: |
+          pyinstaller creator.spec --clean
+
+      - name: Build Runtime
+        run: |
+          pyinstaller runtime.spec --clean
+
+      # Windows: Créer des archives ZIP
+      - name: Package executables (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          Compress-Archive -Path dist\ChoiceGameCreator\* -DestinationPath ${{ matrix.asset_name_creator }}
+          Compress-Archive -Path dist\ChoiceGameRuntime\* -DestinationPath ${{ matrix.asset_name_runtime }}
+        shell: pwsh
+
+      # macOS: Créer des archives ZIP
+      - name: Package executables (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd dist
+          zip -r ../${{ matrix.asset_name_creator }} ChoiceGameCreator.app
+          zip -r ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime.app
+          cd ..
+
+      # Linux: Créer des archives TAR.GZ
+      - name: Package executables (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd dist
+          tar -czf ../${{ matrix.asset_name_creator }} ChoiceGameCreator/
+          tar -czf ../${{ matrix.asset_name_runtime }} ChoiceGameRuntime/
+          cd ..
+
+      # Upload les artifacts (téléchargeables depuis l'onglet Actions)
+      - name: Upload Creator artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.asset_name_creator }}
+          path: ${{ matrix.asset_name_creator }}
+
+      - name: Upload Runtime artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.asset_name_runtime }}
+          path: ${{ matrix.asset_name_runtime }}
+
+  # Job pour créer une release GitHub avec tous les builds
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')  # Seulement si c'est un tag
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/*.tar.gz
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
