@@ -67,6 +67,14 @@ jobs:
       - name: Package executables (macOS)
         if: matrix.os == 'macos-latest'
         run: |
+          # Retirer les attributs de quarantaine (fix code signing issues)
+          xattr -cr dist/ChoiceGameCreator.app || true
+          xattr -cr dist/ChoiceGameRuntime.app || true
+
+          # Rendre les executables exécutables
+          chmod +x dist/ChoiceGameCreator.app/Contents/MacOS/ChoiceGameCreator
+          chmod +x dist/ChoiceGameRuntime.app/Contents/MacOS/ChoiceGameRuntime
+
           # Créer le dossier de package
           mkdir -p package
 
@@ -76,6 +84,9 @@ jobs:
 
           # Copier templates (avec assets et exemple)
           cp -r templates package/
+
+          # Copier les instructions macOS
+          cp README_MACOS.md package/
 
           # Créer l'archive
           cd package
