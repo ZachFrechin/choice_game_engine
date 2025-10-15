@@ -34,3 +34,6 @@ desktop.ini
 
 # Logs
 *.log
+
+# IMPORTANT: Ne pas ignorer .github/ (workflows CI/CD)
+!.github/
