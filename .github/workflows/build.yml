@@ -93,6 +93,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')  # Seulement si c'est un tag
+    permissions:
+      contents: write  # Permission nécessaire pour créer une release
 
     steps:
       - name: Checkout code
@@ -102,15 +104,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+          merge-multiple: true  # Fusionne tous les artifacts dans le même dossier
+
+      - name: List downloaded files
+        run: |
+          echo "Files in artifacts directory:"
+          ls -R artifacts/
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: |
-            artifacts/**/*.zip
-            artifacts/**/*.tar.gz
+          files: artifacts/*
           draft: false
           prerelease: false
           generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: false
