@@ -156,10 +156,6 @@ Un jeu d'exemple est fourni dans `templates/exemple.json`. Ouvrez-le dans le Cre
 
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request.
 
-## 📄 Licence
-
-[À définir - ajoutez votre licence ici]
-
 ## 🐛 Problèmes Connus
 
 - **macOS** : Les builds GitHub Actions nécessitent `xattr -cr` pour retirer la quarantaine
