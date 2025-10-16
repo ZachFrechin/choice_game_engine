@@ -20,14 +20,14 @@ from runtime.managers import (
     ChoiceInputManager,
     VariableSetterManager,
     ConditionEvaluatorManager,
-    BackgroundManager,
+    ImageManager,
     MassInitManager,
     MusicManager
 )
 from runtime.ui.components import (
     TextDialogComponent,
     ChoiceDialogComponent,
-    BackgroundImageComponent,
+    ImageComponent,
     GameMenuComponent,
     PauseMenuComponent,
     MusicComponent,
@@ -113,14 +113,14 @@ def main():
     print("[Runtime] Enregistrement des composants GUI...")
     engine.gui.register_component_type('text_dialog', TextDialogComponent)
     engine.gui.register_component_type('choice_dialog', ChoiceDialogComponent)
-    engine.gui.register_component_type('background_image', BackgroundImageComponent)
+    engine.gui.register_component_type('image', ImageComponent)
     engine.gui.register_component_type('game_menu', GameMenuComponent)
     engine.gui.register_component_type('pause_menu', PauseMenuComponent)
     engine.gui.register_component_type('music', MusicComponent)
     engine.gui.register_component_type('character_portrait', CharacterPortraitComponent)
     print("  ✓ text_dialog")
     print("  ✓ choice_dialog")
-    print("  ✓ background_image")
+    print("  ✓ image (avec layers)")
     print("  ✓ game_menu")
     print("  ✓ pause_menu")
     print("  ✓ music")
@@ -155,10 +155,10 @@ def main():
     engine.register_manager('variables.condition', condition_manager)
     print(f"  ✓ {condition_manager.id} → variables.condition")
 
-    # Manager pour les nodes de background
-    background_manager = BackgroundManager()
-    engine.register_manager('background.background', background_manager)
-    print(f"  ✓ {background_manager.id} → background.background")
+    # Manager pour les nodes d'image
+    image_manager = ImageManager()
+    engine.register_manager('image.image', image_manager)
+    print(f"  ✓ {image_manager.id} → image.image")
 
     # Manager pour les nodes de massinit
     massinit_manager = MassInitManager()

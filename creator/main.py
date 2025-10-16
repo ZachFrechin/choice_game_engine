@@ -18,7 +18,7 @@ from creator.core.managers.module_manager import ModuleManager
 from creator.core.managers.template_manager import TemplateManager
 from creator.ui.widgets.node_canvas import QtNodeCanvas
 from creator.modules.base import TextModule, ChoiceModule, VariablesModule, MassInitModule
-from creator.modules.base.background_module import BackgroundModule
+from creator.modules.base.image_module import ImageModule
 from creator.modules.base.music_module import MusicModule
 from creator.core.linting import LintEngine
 from creator.ui.widgets.lint_panel import LintPanel
@@ -323,14 +323,14 @@ class CreatorApp(QMainWindow):
         choice_module = ChoiceModule()
         variables_module = VariablesModule()
         massinit_module = MassInitModule()
-        background_module = BackgroundModule()
+        image_module = ImageModule()
         music_module = MusicModule()
 
         self.module_manager.register_module(text_module)
         self.module_manager.register_module(choice_module)
         self.module_manager.register_module(variables_module)
         self.module_manager.register_module(massinit_module)
-        self.module_manager.register_module(background_module)
+        self.module_manager.register_module(image_module)
         self.module_manager.register_module(music_module)
 
         # Enregistrer les modules dans le lint engine pour qu'ils puissent valider leurs nodes
@@ -347,9 +347,9 @@ class CreatorApp(QMainWindow):
         for node_type in massinit_module.get_node_types():
             full_type = f"{massinit_module.id}.{node_type.type_id}"
             self.lint_engine.register_module(full_type, massinit_module)
-        for node_type in background_module.get_node_types():
-            full_type = f"{background_module.id}.{node_type.type_id}"
-            self.lint_engine.register_module(full_type, background_module)
+        for node_type in image_module.get_node_types():
+            full_type = f"{image_module.id}.{node_type.type_id}"
+            self.lint_engine.register_module(full_type, image_module)
         for node_type in music_module.get_node_types():
             full_type = f"{music_module.id}.{node_type.type_id}"
             self.lint_engine.register_module(full_type, music_module)

@@ -8,7 +8,7 @@ from .text_manager import TextDisplayManager
 from .choice_manager import ChoiceInputManager
 from .variable_manager import VariableSetterManager
 from .condition_manager import ConditionEvaluatorManager
-from .background_manager import BackgroundManager
+from .image_manager import ImageManager
 from .massinit_manager import MassInitManager
 from .music_manager import MusicManager
 
@@ -17,7 +17,7 @@ __all__ = [
     'ChoiceInputManager',
     'VariableSetterManager',
     'ConditionEvaluatorManager',
-    'BackgroundManager',
+    'ImageManager',
     'MassInitManager',
     'MusicManager'
 ]

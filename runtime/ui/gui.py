@@ -112,8 +112,15 @@ class GameWindow(QMainWindow):
         palette.setColor(QPalette.ColorRole.ButtonText, QColor(30, 30, 30))
         self.setPalette(palette)
 
-    def add_component_widget(self, name: str, widget: QWidget):
-        """Ajoute un widget de composant à la fenêtre avec positionnement absolu."""
+    def add_component_widget(self, name: str, widget: QWidget, z_order: int = 0):
+        """
+        Ajoute un widget de composant à la fenêtre avec positionnement absolu.
+
+        Args:
+            name: Nom du composant
+            widget: Widget Qt à ajouter
+            z_order: Ordre de superposition (plus élevé = au premier plan)
+        """
         if name in self.component_widgets:
             self.remove_component_widget(name)
 
@@ -123,15 +130,34 @@ class GameWindow(QMainWindow):
         # Positionner et dimensionner le widget selon son type
         self._position_widget(name, widget)
 
-        # Gérer le z-order : background en arrière-plan, portrait entre background et dialog
-        if name == 'background_image':
-            widget.lower()  # Mettre en arrière-plan (z=0)
+        # Gérer le z-order
+        if name.startswith('image_layer_'):
+            # Pour les layers d'image, utiliser le z_order fourni
+            # Z-order négatif = arrière-plan, 0 = normal, positif = avant-plan
+            if z_order < 0:
+                widget.lower()
+                # Mettre derrière tous les widgets existants
+                for existing_widget in self.component_widgets.values():
+                    if existing_widget != widget:
+                        widget.stackUnder(existing_widget)
+            else:
+                # Empiler selon le z_order
+                widget.raise_()
+                # Trouver le widget juste au-dessus dans le z-order
+                for comp_name, existing_widget in self.component_widgets.items():
+                    if comp_name.startswith('image_layer_'):
+                        # Extraire le z_order du nom
+                        try:
+                            existing_z = int(comp_name.split('_')[-1])
+                            if existing_z > z_order:
+                                widget.stackUnder(existing_widget)
+                        except (ValueError, IndexError):
+                            pass
         elif name == 'character_portrait':
             widget.raise_()
-            # Positionner au-dessus du background mais en dessous des dialogues
-            if 'background_image' in self.component_widgets:
-                widget.stackUnder(self.component_widgets.get('text_dialog') or
-                                 self.component_widgets.get('choice_dialog') or widget)
+            # Positionner au-dessus des images mais en dessous des dialogues
+            widget.stackUnder(self.component_widgets.get('text_dialog') or
+                             self.component_widgets.get('choice_dialog') or widget)
         else:
             widget.raise_()  # Mettre au premier plan
 
@@ -149,8 +175,8 @@ class GameWindow(QMainWindow):
         elif name == 'choice_dialog':
             # Choix centrés
             widget.setGeometry(0, 0, window_width, window_height)
-        elif name == 'background_image':
-            # Image d'arrière-plan en plein écran
+        elif name.startswith('image_layer_'):
+            # Images (layers) en plein écran
             widget.setGeometry(0, 0, window_width, window_height)
         elif name == 'character_portrait':
             # Portrait du personnage sur le côté droit, partiellement au-dessus de la boîte de dialogue

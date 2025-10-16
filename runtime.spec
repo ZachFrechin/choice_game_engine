@@ -20,9 +20,14 @@ a = Analysis(
         'PyQt6.QtGui',
         'PyQt6.QtWidgets',
         'PyQt6.QtMultimedia',
+        'PyQt6.sip',
     ],
     hookspath=[],
-    hooksconfig={},
+    hooksconfig={
+        'PyQt6': {
+            'QtLibrariesList': ['QtCore', 'QtGui', 'QtWidgets', 'QtMultimedia', 'QtDBus'],
+        },
+    },
     runtime_hooks=['runtime_macos_hook.py'],
     excludes=[],
     win_no_prefer_redirects=False,
@@ -64,13 +69,19 @@ coll = COLLECT(
 )
 
 # macOS app bundle
-app = BUNDLE(
-    coll,
-    name='ChoiceGameRuntime.app',
-    icon='logo.png',
-    bundle_identifier='com.choicegame.runtime',
-    info_plist={
-        'NSPrincipalClass': 'NSApplication',
-        'NSHighResolutionCapable': 'True',
-    },
-)
+# Note: On macOS, we create a simpler bundle structure to avoid Qt path issues
+import sys
+if sys.platform == 'darwin':
+    app = BUNDLE(
+        coll,
+        name='ChoiceGameRuntime.app',
+        icon='logo.png',
+        bundle_identifier='com.choicegame.runtime',
+        info_plist={
+            'NSPrincipalClass': 'NSApplication',
+            'NSHighResolutionCapable': 'True',
+            'LSEnvironment': {
+                'QT_MAC_WANTS_LAYER': '1',
+            },
+        },
+    )

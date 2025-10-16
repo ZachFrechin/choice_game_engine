@@ -1,21 +1,21 @@
 {
-  "current_node": "node_6",
+  "current_node": "node_9",
   "memory_state": {
-    "test": 0,
-    "name": "hello world"
+    "compteur": 0,
+    "name": "Stéphane",
+    "endurance": 5
   },
   "history": [
-    "node_13",
-    "node_3",
     "node_0",
+    "node_1",
+    "node_2",
     "node_5",
-    "node_11",
-    "node_12",
-    "node_6"
+    "node_7"
   ],
-  "timestamp": "2025-10-15T12:37:09.515514",
+  "timestamp": "2025-10-15T22:59:19.344894",
   "custom_data": {
-    "background_image": "/Users/jack/Documents/image/waifu/ami_kawashima.jpg"
+    "background_image": "/Users/jack/Documents/developpement/apps/choice_game_engine/templates/assets/image_blanche.jpg",
+    "music": "/Users/jack/Documents/developpement/apps/choice_game_engine/templates/assets/happy-14585.mp3"
   },
   "version": "1.0"
 }

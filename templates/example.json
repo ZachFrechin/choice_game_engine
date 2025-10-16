@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
   "metadata": {
-    "modified_at": "2025-10-15T14:40:26.465883",
+    "modified_at": "2025-10-16T08:41:08.708948",
     "viewport": {
-      "zoom": 0.49717673529828976,
-      "center_x": 8361.211828437496,
-      "center_y": 44.249858124999975
+      "zoom": 0.6575162324319881,
+      "center_x": 7928.321374999997,
+      "center_y": -229.6521249999999
     }
   },
   "nodes": {
@@ -46,28 +46,6 @@
         "content": "HEEEE HOOOOO  !!!!",
         "speaker": "Voix étrange",
         "character_image": ""
-      }
-    },
-    "node_3": {
-      "id": "node_3",
-      "type": "background.background",
-      "position": {
-        "x": -347.5070000000002,
-        "y": -192.35187499999992
-      },
-      "data": {
-        "image_path": "assets/image_noire.jpg"
-      }
-    },
-    "node_4": {
-      "id": "node_4",
-      "type": "background.background",
-      "position": {
-        "x": 194.40749999999997,
-        "y": -18.97787500000001
-      },
-      "data": {
-        "image_path": "assets/image_blanche.jpg"
       }
     },
     "node_5": {
@@ -311,8 +289,8 @@
       "id": "node_26",
       "type": "text.text",
       "position": {
-        "x": 2625.4499999999994,
-        "y": 9.199999999999992
+        "x": 2623.7009937499997,
+        "y": 5.701987499999994
       },
       "data": {
         "content": "Vous vous asseyez.",
@@ -602,17 +580,6 @@
         "character_image": ""
       }
     },
-    "node_50": {
-      "id": "node_50",
-      "type": "background.background",
-      "position": {
-        "x": 4629.0,
-        "y": -237.0
-      },
-      "data": {
-        "image_path": "assets/premiere_image_goblin.png"
-      }
-    },
     "node_51": {
       "id": "node_51",
       "type": "text.text",
@@ -652,17 +619,6 @@
         "character_image": ""
       }
     },
-    "node_54": {
-      "id": "node_54",
-      "type": "background.background",
-      "position": {
-        "x": 5125.0,
-        "y": -244.0
-      },
-      "data": {
-        "image_path": "assets/deuxieme_image_goblin.png"
-      }
-    },
     "node_55": {
       "id": "node_55",
       "type": "text.text",
@@ -698,17 +654,6 @@
       },
       "data": {
         "music_path": "assets/basic-beats-and-bass-10791.mp3"
-      }
-    },
-    "node_58": {
-      "id": "node_58",
-      "type": "background.background",
-      "position": {
-        "x": 6038.649999999999,
-        "y": -243.7999999999999
-      },
-      "data": {
-        "image_path": "assets/troisième_image_goblin.png"
       }
     },
     "node_59": {
@@ -817,17 +762,6 @@
         "character_image": ""
       }
     },
-    "node_68": {
-      "id": "node_68",
-      "type": "background.background",
-      "position": {
-        "x": 7767.0,
-        "y": -126.0
-      },
-      "data": {
-        "image_path": "assets/image_blanche.jpg"
-      }
-    },
     "node_69": {
       "id": "node_69",
       "type": "text.text",
@@ -839,17 +773,6 @@
         "content": "Bien jouer c'est la fin de la démo !",
         "speaker": "",
         "character_image": ""
-      }
-    },
-    "node_70": {
-      "id": "node_70",
-      "type": "background.background",
-      "position": {
-        "x": 7513.452362948964,
-        "y": -282.82930056710785
-      },
-      "data": {
-        "image_path": "assets/quatrième_image_goblin.png"
       }
     },
     "node_71": {
@@ -888,7 +811,7 @@
       "data": {
         "content": "{{name}}, .. , {{name}}, {{name}} !!!",
         "speaker": "Créature",
-        "character_image": "/Users/jack/Downloads/caracter_card_creature.png"
+        "character_image": "assets/caracter_card_creature.png"
       }
     },
     "node_74": {
@@ -917,17 +840,6 @@
         "character_image": ""
       }
     },
-    "node_76": {
-      "id": "node_76",
-      "type": "background.background",
-      "position": {
-        "x": 8460.869565217394,
-        "y": -159.99999999999994
-      },
-      "data": {
-        "image_path": "assets/image_noire.jpg"
-      }
-    },
     "node_77": {
       "id": "node_77",
       "type": "text.text",
@@ -953,6 +865,114 @@
         "speaker": "",
         "character_image": ""
       }
+    },
+    "node_79": {
+      "id": "node_79",
+      "type": "image.image",
+      "position": {
+        "x": -329.2847826086957,
+        "y": -198.03695652173906
+      },
+      "data": {
+        "image_path": "assets/image_noire.jpg",
+        "layer": 0
+      }
+    },
+    "node_80": {
+      "id": "node_80",
+      "type": "image.image",
+      "position": {
+        "x": 190.0,
+        "y": -19.0
+      },
+      "data": {
+        "image_path": "assets/image_blanche.jpg",
+        "layer": 0
+      }
+    },
+    "node_81": {
+      "id": "node_81",
+      "type": "image.image",
+      "position": {
+        "x": 4640.189624999998,
+        "y": -244.86087499999996
+      },
+      "data": {
+        "image_path": "assets/premiere_image_goblin.png",
+        "layer": 0
+      }
+    },
+    "node_82": {
+      "id": "node_82",
+      "type": "image.image",
+      "position": {
+        "x": 5108.619125,
+        "y": -38.02187500000011
+      },
+      "data": {
+        "image_path": "assets/deuxieme_image_goblin.png",
+        "layer": 0
+      }
+    },
+    "node_83": {
+      "id": "node_83",
+      "type": "image.image",
+      "position": {
+        "x": 6041.1799999999985,
+        "y": -244.66249999999988
+      },
+      "data": {
+        "image_path": "assets/troisième_image_goblin.png",
+        "layer": 0
+      }
+    },
+    "node_84": {
+      "id": "node_84",
+      "type": "image.image",
+      "position": {
+        "x": 7518.699999999997,
+        "y": -280.5999999999999
+      },
+      "data": {
+        "image_path": "assets/quatrième_image_goblin.png",
+        "layer": 0
+      }
+    },
+    "node_85": {
+      "id": "node_85",
+      "type": "image.image",
+      "position": {
+        "x": 7755.5999999999985,
+        "y": -128.79999999999993
+      },
+      "data": {
+        "image_path": "assets/image_blanche.jpg",
+        "layer": 0
+      }
+    },
+    "node_86": {
+      "id": "node_86",
+      "type": "image.image",
+      "position": {
+        "x": 8462.677499999998,
+        "y": -170.60249999999994
+      },
+      "data": {
+        "image_path": "assets/image_noire.jpg",
+        "layer": 0
+      }
+    },
+    "node_87": {
+      "id": "node_87",
+      "type": "image.image",
+      "position": {
+        "x": 5109.075256525872,
+        "y": -149.58546317934778
+      },
+      "data": {
+        "image_path": "assets/caracter_card_creature.png",
+        "layer": 1
+      }
     }
   },
   "connections": [
@@ -966,24 +986,6 @@
       "from_node": "node_1",
       "from_port": "output",
       "to_node": "node_2",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_3",
-      "from_port": "output",
-      "to_node": "node_0",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_2",
-      "from_port": "output",
-      "to_node": "node_4",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_4",
-      "from_port": "output",
-      "to_node": "node_5",
       "to_port": "input"
     },
     {
@@ -1026,12 +1028,6 @@
       "from_node": "node_12",
       "from_port": "output",
       "to_node": "node_13",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_14",
-      "from_port": "output",
-      "to_node": "node_3",
       "to_port": "input"
     },
     {
@@ -1233,18 +1229,6 @@
       "to_port": "input"
     },
     {
-      "from_node": "node_49",
-      "from_port": "output",
-      "to_node": "node_50",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_50",
-      "from_port": "output",
-      "to_node": "node_51",
-      "to_port": "input"
-    },
-    {
       "from_node": "node_51",
       "from_port": "output",
       "to_node": "node_52",
@@ -1257,33 +1241,9 @@
       "to_port": "input"
     },
     {
-      "from_node": "node_53",
-      "from_port": "output",
-      "to_node": "node_54",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_54",
-      "from_port": "output",
-      "to_node": "node_55",
-      "to_port": "input"
-    },
-    {
       "from_node": "node_55",
       "from_port": "output",
       "to_node": "node_56",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_57",
-      "from_port": "output",
-      "to_node": "node_58",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_58",
-      "from_port": "output",
-      "to_node": "node_59",
       "to_port": "input"
     },
     {
@@ -1329,33 +1289,9 @@
       "to_port": "input"
     },
     {
-      "from_node": "node_66",
-      "from_port": "output",
-      "to_node": "node_68",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_68",
-      "from_port": "output",
-      "to_node": "node_69",
-      "to_port": "input"
-    },
-    {
       "from_node": "node_63",
       "from_port": "output_true",
       "to_node": "node_65",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_65",
-      "from_port": "output",
-      "to_node": "node_70",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_70",
-      "from_port": "output",
-      "to_node": "node_71",
       "to_port": "input"
     },
     {
@@ -1377,18 +1313,6 @@
       "to_port": "input"
     },
     {
-      "from_node": "node_74",
-      "from_port": "output",
-      "to_node": "node_76",
-      "to_port": "input"
-    },
-    {
-      "from_node": "node_76",
-      "from_port": "output",
-      "to_node": "node_75",
-      "to_port": "input"
-    },
-    {
       "from_node": "node_75",
       "from_port": "output",
       "to_node": "node_77",
@@ -1404,6 +1328,108 @@
       "from_node": "node_56",
       "from_port": "output",
       "to_node": "node_57",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_14",
+      "from_port": "output",
+      "to_node": "node_79",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_79",
+      "from_port": "output",
+      "to_node": "node_0",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_2",
+      "from_port": "output",
+      "to_node": "node_80",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_80",
+      "from_port": "output",
+      "to_node": "node_5",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_49",
+      "from_port": "output",
+      "to_node": "node_81",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_81",
+      "from_port": "output",
+      "to_node": "node_51",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_53",
+      "from_port": "output",
+      "to_node": "node_82",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_57",
+      "from_port": "output",
+      "to_node": "node_83",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_83",
+      "from_port": "output",
+      "to_node": "node_59",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_65",
+      "from_port": "output",
+      "to_node": "node_84",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_84",
+      "from_port": "output",
+      "to_node": "node_71",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_66",
+      "from_port": "output",
+      "to_node": "node_85",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_85",
+      "from_port": "output",
+      "to_node": "node_69",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_74",
+      "from_port": "output",
+      "to_node": "node_86",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_86",
+      "from_port": "output",
+      "to_node": "node_75",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_82",
+      "from_port": "output",
+      "to_node": "node_87",
+      "to_port": "input"
+    },
+    {
+      "from_node": "node_87",
+      "from_port": "output",
+      "to_node": "node_55",
       "to_port": "input"
     }
   ],
@@ -1430,8 +1456,8 @@
       "version": "1.0.0"
     },
     {
-      "id": "background",
-      "name": "Module Background",
+      "id": "image",
+      "name": "Module Image",
       "version": "1.0.0"
     },
     {

@@ -1,7 +1,7 @@
 """
-Module Music - Nœud pour jouer de la musique de fond
+Module Music - Nœud pour jouer de la musique avec système de pistes
 
-Nœud ovale bleu qui prend un path vers un fichier audio.
+Nœud ovale bleu qui prend un path vers un fichier audio, une piste et une option repeat.
 """
 
 from typing import Dict, List, Any
@@ -13,7 +13,7 @@ class MusicNodeWidget(BaseNodeWidget):
     """
     Widget pour un noeud de musique.
 
-    Affiche le nom du fichier audio sélectionné.
+    Affiche le nom du fichier audio sélectionné avec sa piste et son mode repeat.
     """
 
     def get_node_shape(self) -> str:
@@ -28,20 +28,24 @@ class MusicNodeWidget(BaseNodeWidget):
         return '#6a9aba'
 
     def get_display_text(self) -> str:
-        """Affiche le nom du fichier audio"""
+        """Affiche le nom du fichier audio avec la piste et le mode repeat"""
         music_path = self.data.get('music_path', '')
+        track = self.data.get('track', 0)
+        repeat = self.data.get('repeat', True)
+
+        repeat_text = "🔁" if repeat else "▶️"
 
         if not music_path:
-            return "🎵 Music\n\nAucune musique"
+            return f"🎵 Music\nTrack {track} {repeat_text}\n\nAucune musique"
 
         # Afficher juste le nom du fichier
         import os
         filename = os.path.basename(music_path)
-        return f"🎵 Music\n\n{filename}"
+        return f"🎵 Music\nTrack {track} {repeat_text}\n\n{filename}"
 
     def get_default_data(self) -> Dict[str, Any]:
         """Données par défaut"""
-        return {'music_path': ''}
+        return {'music_path': '', 'track': 0, 'repeat': True}
 
     def get_input_ports(self) -> List[Dict[str, Any]]:
         """Un port d'entrée"""
@@ -69,7 +73,7 @@ class MusicModule(IModule):
 
     @property
     def description(self) -> str:
-        return "Nœud pour jouer de la musique de fond"
+        return "Nœud pour jouer de la musique avec système de pistes et option repeat"
 
     def get_node_types(self) -> List[NodeType]:
         return [
@@ -78,12 +82,24 @@ class MusicModule(IModule):
                 display_name="Music",
                 category="Audio",
                 icon="🎵",
-                default_data={'music_path': ''},
+                default_data={'music_path': '', 'track': 0, 'repeat': True},
                 properties_schema={
                     'music_path': {
                         'type': 'file',
                         'label': 'Chemin du fichier audio',
                         'required': True
+                    },
+                    'track': {
+                        'type': 'number',
+                        'label': 'Piste audio',
+                        'required': True,
+                        'default': 0
+                    },
+                    'repeat': {
+                        'type': 'boolean',
+                        'label': 'Répéter en boucle',
+                        'required': True,
+                        'default': True
                     }
                 }
             )
@@ -118,7 +134,7 @@ class MusicModule(IModule):
 
     def create_properties_editor(self, node_type: str, parent, node, on_change_callback=None):
         """Crée l'éditeur de propriétés avec le helper create_file_field"""
-        from PyQt6.QtWidgets import QWidget, QVBoxLayout
+        from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSpinBox, QCheckBox
         from ...ui.editors.field_editors import create_file_field
 
         simple_type = node_type.split('.')[-1] if '.' in node_type else node_type
@@ -138,6 +154,26 @@ class MusicModule(IModule):
                 show_preview=False
             )
             layout.addWidget(file_widget)
+
+            # Champ pour la piste (track)
+            track_label = QLabel("Piste audio:")
+            layout.addWidget(track_label)
+
+            track_spinbox = QSpinBox()
+            track_spinbox.setMinimum(0)
+            track_spinbox.setMaximum(10)
+            track_spinbox.setValue(node.data.get('track', 0))
+            track_spinbox.setToolTip("Piste 0 = musique de fond principale, autres pistes = effets sonores superposés")
+            track_spinbox.valueChanged.connect(node.widget.create_on_change_callback('track'))
+            layout.addWidget(track_spinbox)
+
+            # Checkbox pour repeat
+            repeat_checkbox = QCheckBox("Répéter en boucle")
+            repeat_checkbox.setChecked(node.data.get('repeat', True))
+            repeat_checkbox.setToolTip("Si coché, le son se répète en boucle. Sinon, il ne joue qu'une fois.")
+            repeat_checkbox.toggled.connect(node.widget.create_on_change_callback('repeat'))
+            layout.addWidget(repeat_checkbox)
+
             layout.addStretch()
 
             return widget

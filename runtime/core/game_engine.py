@@ -394,17 +394,23 @@ class GameEngine:
             print("❌ Impossible de sauvegarder: aucun node actif")
             return False
 
-        # Récupérer l'image de fond et la musique actuelles
+        # Récupérer les images et la musique actuelles
         if custom_data is None:
             custom_data = {}
 
-        background_component = self.gui._components.get('background_image')
-        if background_component and background_component.image_path:
-            custom_data['background_image'] = background_component.image_path
+        # Sauvegarder toutes les images (layers)
+        image_component = self.gui._components.get('image')
+        if image_component and hasattr(image_component, 'get_layers'):
+            layers = image_component.get_layers()
+            if layers:
+                custom_data['image_layers'] = layers
 
+        # Sauvegarder toutes les pistes audio
         music_component = self.gui._components.get('music')
-        if music_component and music_component.music_path:
-            custom_data['music'] = music_component.music_path
+        if music_component and hasattr(music_component, 'get_tracks'):
+            tracks = music_component.get_tracks()
+            if tracks:
+                custom_data['music_tracks'] = tracks
 
         return self.saver.save(
             slot=slot,
@@ -435,15 +441,18 @@ class GameEngine:
         self.history = save_data.history.copy()
         self.current_node = save_data.current_node
 
-        # Restaurer l'image de fond si elle existe
-        if save_data.custom_data and 'background_image' in save_data.custom_data:
-            background_path = save_data.custom_data['background_image']
-            self.gui.show_component('background_image', image_path=background_path)
+        # Restaurer les images (layers) si elles existent
+        if save_data.custom_data and 'image_layers' in save_data.custom_data:
+            layers = save_data.custom_data['image_layers']
+            for layer_id, image_path in layers.items():
+                self.gui.show_component('image', image_path=image_path, layer=int(layer_id))
 
-        # Restaurer la musique si elle existe
-        if save_data.custom_data and 'music' in save_data.custom_data:
-            music_path = save_data.custom_data['music']
-            self.gui.show_component('music', music_path=music_path)
+        # Restaurer les pistes audio si elles existent
+        if save_data.custom_data and 'music_tracks' in save_data.custom_data:
+            tracks = save_data.custom_data['music_tracks']
+            for track_id, music_path in tracks.items():
+                # Note: on ne sauvegarde pas le mode repeat, donc on utilise True par défaut
+                self.gui.show_component('music', music_path=music_path, track=int(track_id), repeat=True)
 
         print(f"✓ Partie chargée (node: {self.current_node})")
         return True

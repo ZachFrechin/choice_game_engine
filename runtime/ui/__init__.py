@@ -8,7 +8,7 @@ from .gui import GUI, GUIComponent, GameWindow
 from .components import (
     TextDialogComponent,
     ChoiceDialogComponent,
-    BackgroundImageComponent,
+    ImageComponent,
 )
 
 __all__ = [
@@ -17,5 +17,5 @@ __all__ = [
     'GameWindow',
     'TextDialogComponent',
     'ChoiceDialogComponent',
-    'BackgroundImageComponent',
+    'ImageComponent',
 ]

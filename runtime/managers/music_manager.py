@@ -1,7 +1,7 @@
 """
-MusicManager - Joue de la musique de fond
+MusicManager - Joue de la musique avec système de pistes
 
-Gère la lecture de musique via le composant music du GUI.
+Gère la lecture de musique via le composant music du GUI avec support multi-pistes et repeat.
 """
 
 from typing import Dict, Any, Optional
@@ -14,7 +14,7 @@ class MusicManager(INodeManager):
     """
     Manager pour les nodes de musique.
 
-    Joue de la musique de fond en utilisant le composant music du GUI.
+    Joue de la musique en utilisant le composant music du GUI avec système de pistes et option repeat.
     """
 
     @property
@@ -30,7 +30,7 @@ class MusicManager(INodeManager):
         Traite un node music.
 
         Args:
-            node: Node avec music_path
+            node: Node avec music_path, track et repeat
             memory: Mémoire du jeu
             gui: Interface graphique
 
@@ -41,15 +41,18 @@ class MusicManager(INodeManager):
             print("⚠️  GUI non disponible, impossible de jouer la musique")
             return {'final_next': 'output'}
 
-        # Récupérer le chemin du fichier audio
-        music_path = node.get('data', {}).get('music_path', '')
+        # Récupérer les données du node
+        data = node.get('data', {})
+        music_path = data.get('music_path', '')
+        track = data.get('track', 0)
+        repeat = data.get('repeat', True)
 
         if not music_path:
             print("⚠️  Aucun chemin de musique spécifié")
             return {'final_next': 'output'}
 
-        # Jouer la musique
-        gui.show_component('music', music_path=music_path)
+        # Jouer la musique sur la piste spécifiée avec le mode repeat
+        gui.show_component('music', music_path=music_path, track=track, repeat=repeat)
 
         # Retourner le next par défaut
         return {'final_next': 'output'}
@@ -74,5 +77,13 @@ class MusicManager(INodeManager):
         # Vérifier que music_path existe
         if 'music_path' not in data:
             return False
+
+        # Vérifier que track existe (optionnel, défaut à 0)
+        if 'track' not in data:
+            data['track'] = 0
+
+        # Vérifier que repeat existe (optionnel, défaut à True)
+        if 'repeat' not in data:
+            data['repeat'] = True
 
         return True
